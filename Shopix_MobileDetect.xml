@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Shopix_MobileDetect>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Shopix_MobileDetect>
+    </modules>
+</config>
+

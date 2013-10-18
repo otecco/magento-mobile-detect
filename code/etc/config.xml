@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Shopix_MobileDetect>
+            <version>0.1.0</version>
+        </Shopix_MobileDetect>
+    </modules>
+    
+    <global>
+        <events>
+            <controller_front_send_response_before>
+                <observers>
+                    <shopix_mobiledetect_page_load>
+                        <type>singleton</type>
+                        <class>Shopix_MobileDetect_Model_Observer</class>
+                        <method>controllerFrontSendResponseBefore</method>
+                    </shopix_mobiledetect_page_load>
+                </observers>
+            </controller_front_send_response_before>
+        </events>
+    </global>
+</config>
