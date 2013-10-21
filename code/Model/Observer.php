@@ -1,6 +1,6 @@
 <?php
 /*
-    Shopix_ClixGalore - clixGalore transaction code integration Magento extension
+    Shopix_MobileDetect - Detect mobile device and redirect to the appropriate store view.
     Copyright (C) 2013 Shopix Pty Ltd (http://www.shopix.com.au)
 
     This program is free software: you can redistribute it and/or modify
