@@ -25,8 +25,7 @@ class Shopix_MobileDetect_Model_Observer extends Varien_Object
     var $run_code_mobile;
 
     public function __construct() {
-        $this->set_header = 1;
-        $this->set_header_mobile_only = 0;
+        $this->set_header = Mage::getStoreConfig('web/mobiledetect/header');
         $this->run_code_desktop = Mage::getModel('core/store')->load(Mage::getStoreConfig('web/mobiledetect/desktop'))->getCode();
         $this->run_code_mobile = Mage::getModel('core/store')->load(Mage::getStoreConfig('web/mobiledetect/mobile'))->getCode();
     }
@@ -39,6 +38,13 @@ class Shopix_MobileDetect_Model_Observer extends Varien_Object
     public function controllerFrontSendResponseBefore($observer) {
         $current = Mage::app()->getStore()->getCode();
 
+        // Config-based header output.
+        if ($this->set_header == Shopix_MobileDetect_Model_Header::CONFIG_YES
+                || ($this->set_header == Shopix_MobileDetect_Model_Header::CONFIG_MOBILE_ONLY
+                    && $current == $this->run_code_mobile)) {
+            Mage::app()->getFrontController()->getResponse()->setHeader("Vary", "User-Agent");
+        }
+
         // Do not touch other store views.
         if (! in_array($current, array($this->run_code_desktop, $this->run_code_mobile)))
             return;
@@ -47,10 +53,6 @@ class Shopix_MobileDetect_Model_Observer extends Varien_Object
         if (is_null($this->run_code_desktop) || is_null($this->run_code_desktop)
                 || $this->run_code_desktop === $this->run_code_mobile)
             return;
-
-        if ($this->set_header && ($current != $this->run_code_mobile || $this->set_header_mobile_only)) {
-            Mage::app()->getFrontController()->getResponse()->setHeader("Vary", "User-Agent");
-        }
 
         $session = Mage::getSingleton('core/session');
 
